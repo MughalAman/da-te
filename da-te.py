@@ -1,5 +1,5 @@
 from datetime import datetime
-from os.path import exists
+from os.path import exists, dirname, abspath
 import locale
 
 #region config
@@ -11,9 +11,11 @@ date_format = "%A, %m %b %Y %H:%M:%S"
 
 #endregion
 
+config_file_path = f"{dirname(abspath(__file__))}/da-te.conf"
+
 def create_config_files():
-    if not exists("da-te.conf"):
-        with open("da-te.conf", "w") as config_file:
+    if not exists(config_file_path):
+        with open(config_file_path, "w") as config_file:
             config_file.write(f"display_default_lang = {display_default_lang}\n")
             config_file.write(f"display_custom_lang = {display_custom_lang}\n")
             config_file.write(f"custom_language = {custom_language}\n")
@@ -29,8 +31,8 @@ def load_config_files():
     global date_format
 
 
-    if exists("da-te.conf"):
-        with open("da-te.conf", "r") as config_file:
+    if exists(config_file_path):
+        with open(config_file_path, "r") as config_file:
             for line in config_file:
                 if line.startswith("display_default_lang"):
                     display_default_lang = line.split("=")[1].strip()
